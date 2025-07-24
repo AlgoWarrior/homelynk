@@ -10,6 +10,7 @@ import {
   FiUserCheck,
   FiUserX,
 } from 'react-icons/fi';
+import { Tooltip } from 'react-tooltip';
 
 interface User {
   id: string;
@@ -155,23 +156,29 @@ const ManageUsers = () => {
           />
         </div>
       </div>
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+      <div className="bg-white rounded-lg shadow overflow-hidden w-full">
+        <div className="w-full">
+          <table className="min-w-full w-full table-fixed divide-y divide-gray-200 text-sm">
+            <colgroup>
+              <col style={{ width: '30%' }} />
+              <col style={{ width: '18%' }} className="hidden md:table-column" />
+              <col style={{ width: '22%' }} className="hidden md:table-column" />
+              <col style={{ width: '18%' }} className="hidden md:table-column" />
+              <col style={{ width: '12%' }} />
+            </colgroup>
             <thead className="bg-[#0d3547]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">User</th>
-                <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Type</th>
-                <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Email</th>
-                <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Phone</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Actions</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-white uppercase tracking-wider truncate">User</th>
+                <th className="hidden md:table-cell px-2 py-2 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Type</th>
+                <th className="hidden md:table-cell px-2 py-2 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Email</th>
+                <th className="hidden md:table-cell px-2 py-2 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Phone</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Status & Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {paginatedUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-2 py-2 whitespace-normal break-words">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
                         {user.avatar ? (
@@ -183,44 +190,53 @@ const ManageUsers = () => {
                         )}
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                        <div className="md:hidden text-sm text-gray-500">{user.type.charAt(0).toUpperCase() + user.type.slice(1)}</div>
+                        <div className="text-sm font-medium text-gray-900 truncate">{user.name}</div>
+                        <div className="md:hidden text-xs text-gray-500 truncate">{user.type.charAt(0).toUpperCase() + user.type.slice(1)}</div>
+                        <div className="md:hidden text-xs text-gray-500 truncate">{user.email}</div>
+                        <div className="md:hidden text-xs text-gray-500 truncate">{user.phone}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{user.type.charAt(0).toUpperCase() + user.type.slice(1)}</div>
+                  <td className="hidden md:table-cell px-2 py-2 whitespace-normal break-words">
+                    <div className="text-sm text-gray-900 truncate">{user.type.charAt(0).toUpperCase() + user.type.slice(1)}</div>
                   </td>
-                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{user.email}</div>
+                  <td className="hidden md:table-cell px-2 py-2 whitespace-normal break-words">
+                    <div className="text-sm text-gray-900 truncate">{user.email}</div>
                   </td>
-                  <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{user.phone}</div>
+                  <td className="hidden md:table-cell px-2 py-2 whitespace-normal break-words">
+                    <div className="text-sm text-gray-900 truncate">{user.phone}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusStyles[user.status]}`}>
-                      {user.status.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-2">
-                    <button
-                      onClick={() => handleView(user)}
-                      className="text-[#0d3547] hover:text-[#0a2a38] border border-[#0d3547] hover:border-[#0a2a38] px-2 py-1 rounded-md text-sm flex items-center"
-                    >
-                      <FiEye className="mr-1" />View
-                    </button>
-                    <button
-                      className="text-[#8b5e3c] border border-[#8b5e3c] hover:bg-[#8b5e3c] hover:text-white px-2 py-1 rounded-md text-sm flex items-center"
-                    >
-                      <FiEdit2 className="mr-1" />Edit
-                    </button>
-                    <button
-                      onClick={() => handleBlockUnblock(user.id)}
-                      disabled={actionLoading}
-                      className={`border px-2 py-1 rounded-md text-sm flex items-center ${user.status === 'active' ? 'text-red-600 border-red-600 hover:bg-red-600 hover:text-white' : 'text-green-600 border-green-600 hover:bg-green-600 hover:text-white'} disabled:opacity-50`}
-                    >
-                      {user.status === 'active' ? <><FiUserX className="mr-1" />Block</> : <><FiUserCheck className="mr-1" />Unblock</>}
-                    </button>
+                  <td className="px-2 py-2 whitespace-normal break-words">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusStyles[user.status]} mr-2`}>{user.status.toUpperCase()}</span>
+                    <div className="flex gap-1 flex-wrap mt-1 md:mt-0">
+                      <button
+                        onClick={() => handleView(user)}
+                        className="text-[#0d3547] hover:text-[#0a2a38] border border-[#0d3547] hover:border-[#0a2a38] p-2 rounded-full text-xs flex items-center"
+                        data-tooltip-id={`view-tooltip-${user.id}`}
+                        aria-label="View"
+                      >
+                        <FiEye />
+                      </button>
+                      <Tooltip id={`view-tooltip-${user.id}`} place="top" content="View" />
+                      <button
+                        className="text-[#8b5e3c] border border-[#8b5e3c] hover:bg-[#8b5e3c] hover:text-white p-2 rounded-full text-xs flex items-center"
+                        data-tooltip-id={`edit-tooltip-${user.id}`}
+                        aria-label="Edit"
+                      >
+                        <FiEdit2 />
+                      </button>
+                      <Tooltip id={`edit-tooltip-${user.id}`} place="top" content="Edit" />
+                      <button
+                        onClick={() => handleBlockUnblock(user.id)}
+                        disabled={actionLoading}
+                        className={`border p-2 rounded-full text-xs flex items-center ${user.status === 'active' ? 'text-red-600 border-red-600 hover:bg-red-600 hover:text-white' : 'text-green-600 border-green-600 hover:bg-green-600 hover:text-white'} disabled:opacity-50`}
+                        data-tooltip-id={`block-tooltip-${user.id}`}
+                        aria-label={user.status === 'active' ? 'Block' : 'Unblock'}
+                      >
+                        {user.status === 'active' ? <FiUserX /> : <FiUserCheck />}
+                      </button>
+                      <Tooltip id={`block-tooltip-${user.id}`} place="top" content={user.status === 'active' ? 'Block' : 'Unblock'} />
+                    </div>
                   </td>
                 </tr>
               ))}

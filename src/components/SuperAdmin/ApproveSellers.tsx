@@ -209,26 +209,23 @@ const ApproveSeller = () => {
         </div>
       ) : (
         <>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
+          <div className="bg-white rounded-lg shadow overflow-hidden w-full">
+            <div className="w-full">
+              <table className="min-w-full w-full table-fixed divide-y divide-gray-200">
+                <colgroup>
+                  <col style={{ width: '28%' }} />
+                  <col style={{ width: '20%' }} className="hidden md:table-column" />
+                  <col style={{ width: '20%' }} className="hidden md:table-column" />
+                  <col style={{ width: '16%' }} />
+                  <col style={{ width: '16%' }} />
+                </colgroup>
                 <thead className="bg-[#0d3547]">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Seller
-                    </th>
-                    <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Store
-                    </th>
-                    <th scope="col" className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Contact
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Actions
-                    </th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Seller</th>
+                    <th scope="col" className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Store</th>
+                    <th scope="col" className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Contact</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Status</th>
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -321,7 +318,7 @@ const ApproveSeller = () => {
 
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full max-h-[90vh] overflow-y-auto">
               <div className="bg-[#0d3547] px-4 py-3 sm:px-6">
                 <div className="flex items-center">
                   <FiShoppingBag className="mr-2 text-white" />

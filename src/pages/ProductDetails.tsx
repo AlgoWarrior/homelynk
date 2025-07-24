@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { StarIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/react/24/solid';
 import { HeartIcon as HeartOutline, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
@@ -39,6 +39,7 @@ const ProductDetails: React.FC = () => {
   const [newComment, setNewComment] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [activeTab, setActiveTab] = useState('details');
+  const navigate = useNavigate();
 
   const handleIncrease = () => setQuantity(prev => Math.min(prev + 1, dummyProduct.stock));
   const handleDecrease = () => setQuantity(prev => Math.max(prev - 1, 1));
@@ -100,8 +101,8 @@ const ProductDetails: React.FC = () => {
                 key={img}
                 onClick={() => setSelectedImage(img)}
                 className={`aspect-square rounded-md overflow-hidden border-2 transition ${selectedImage === img
-                    ? 'border-[#8B5E3C]'
-                    : 'border-transparent hover:border-[#0D3547]/30'
+                  ? 'border-[#8B5E3C]'
+                  : 'border-transparent hover:border-[#0D3547]/30'
                   }`}
               >
                 <img
@@ -221,16 +222,17 @@ const ProductDetails: React.FC = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
+          <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <button
               disabled={dummyProduct.stock <= 0}
-              className="flex-1 bg-[#0D3547] text-white py-3 px-6 rounded-lg hover:bg-[#0D3547]/90 focus:outline-none focus:ring-2 focus:ring-[#8B5E3C] focus:ring-offset-2 transition disabled:opacity-70 disabled:cursor-not-allowed"
+              className="flex-1 bg-gradient-to-r from-[#0D3547] to-[#8B5E3C] text-white py-3 px-6 rounded-xl shadow-lg hover:from-[#8B5E3C] hover:to-[#0D3547] focus:outline-none focus:ring-2 focus:ring-[#8B5E3C] focus:ring-offset-2 transition disabled:opacity-70 disabled:cursor-not-allowed font-semibold text-lg"
             >
               Add to Cart
             </button>
             <button
               disabled={dummyProduct.stock <= 0}
-              className="flex-1 border border-[#0D3547] text-[#0D3547] py-3 px-6 rounded-lg hover:bg-[#0D3547]/5 focus:outline-none focus:ring-2 focus:ring-[#8B5E3C] focus:ring-offset-2 transition disabled:opacity-70 disabled:cursor-not-allowed"
+              onClick={() => navigate('/checkout', { state: { product: dummyProduct, quantity } })}
+              className="flex-1 border-2 border-[#0D3547] text-[#0D3547] py-3 px-6 rounded-xl shadow hover:bg-[#0D3547]/5 focus:outline-none focus:ring-2 focus:ring-[#8B5E3C] focus:ring-offset-2 transition disabled:opacity-70 disabled:cursor-not-allowed font-semibold text-lg"
             >
               Buy Now
             </button>
@@ -260,8 +262,8 @@ const ProductDetails: React.FC = () => {
           <button
             onClick={() => setActiveTab('details')}
             className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'details'
-                ? 'border-[#8B5E3C] text-[#0D3547]'
-                : 'border-transparent text-[#0D3547]/70 hover:text-[#0D3547] hover:border-[#0D3547]/30'
+              ? 'border-[#8B5E3C] text-[#0D3547]'
+              : 'border-transparent text-[#0D3547]/70 hover:text-[#0D3547] hover:border-[#0D3547]/30'
               }`}
           >
             Product Details
@@ -269,8 +271,8 @@ const ProductDetails: React.FC = () => {
           <button
             onClick={() => setActiveTab('specs')}
             className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'specs'
-                ? 'border-[#8B5E3C] text-[#0D3547]'
-                : 'border-transparent text-[#0D3547]/70 hover:text-[#0D3547] hover:border-[#0D3547]/30'
+              ? 'border-[#8B5E3C] text-[#0D3547]'
+              : 'border-transparent text-[#0D3547]/70 hover:text-[#0D3547] hover:border-[#0D3547]/30'
               }`}
           >
             Specifications
@@ -278,8 +280,8 @@ const ProductDetails: React.FC = () => {
           <button
             onClick={() => setActiveTab('reviews')}
             className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'reviews'
-                ? 'border-[#8B5E3C] text-[#0D3547]'
-                : 'border-transparent text-[#0D3547]/70 hover:text-[#0D3547] hover:border-[#0D3547]/30'
+              ? 'border-[#8B5E3C] text-[#0D3547]'
+              : 'border-transparent text-[#0D3547]/70 hover:text-[#0D3547] hover:border-[#0D3547]/30'
               }`}
           >
             Reviews ({dummyProduct.reviews.length})

@@ -322,25 +322,27 @@ const ApproveProducts = () => {
         </div>
       ) : (
         <>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
+          <div className="bg-white rounded-lg shadow overflow-hidden w-full">
+            <div className="w-full">
+              <table className="min-w-full w-full table-fixed divide-y divide-gray-200">
+                <colgroup>
+                  <col style={{ width: '5%' }} />
+                  <col style={{ width: '25%' }} />
+                  <col style={{ width: '15%' }} className="hidden md:table-column" />
+                  <col style={{ width: '15%' }} className="hidden md:table-column" />
+                  <col style={{ width: '15%' }} className="hidden md:table-column" />
+                  <col style={{ width: '12%' }} />
+                  <col style={{ width: '13%' }} />
+                </colgroup>
                 <thead className="bg-[#0d3547]">
                   <tr>
-                    <th className="px-4 py-3">
-                      <input
-                        type="checkbox"
-                        checked={selectedIds.length === paginatedProducts.length && paginatedProducts.length > 0}
-                        onChange={e => handleSelectAll(e.target.checked)}
-                        className="accent-[#8b5e3c]"
-                      />
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Product</th>
-                    <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Category</th>
-                    <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Seller</th>
-                    <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Actions</th>
+                    <th className="px-2 py-3"></th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Product</th>
+                    <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Category</th>
+                    <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Seller</th>
+                    <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Price</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Status</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider truncate">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">

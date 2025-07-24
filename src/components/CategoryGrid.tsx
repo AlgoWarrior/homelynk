@@ -1,5 +1,7 @@
 import React from 'react';
 import CategoryCard from './CategoryCard';
+import { Link } from 'react-router-dom';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const categories = [
   {
@@ -27,17 +29,28 @@ const categories = [
 const CategoryGrid: React.FC = () => {
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-[#0F766E] mb-8 text-center">
+      <h2 className="text-3xl font-bold text-[#0F766E] mb-8 text-center tracking-tight">
         Shop by Category
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {categories.map((category) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10">
+        {categories.slice(0, 3).map((category) => (
           <CategoryCard
             key={category.title}
             title={category.title}
             imageUrl={category.imageUrl}
           />
         ))}
+        {/* Explore More Card */}
+        <Link
+          to="/all-products"
+          className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#0F766E]/30 bg-white/60 shadow-lg p-8 hover:bg-[#0F766E]/10 transition group min-h-[220px] text-center"
+        >
+          <span className="text-xl font-bold text-[#0F766E] mb-2 group-hover:text-[#8B5E3C] transition">Explore More</span>
+          <span className="text-[#0D3547]/70 mb-4 text-sm">Discover all categories and products</span>
+          <span className="inline-flex items-center gap-1 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
+            See All <ArrowRightIcon className="h-5 w-5" />
+          </span>
+        </Link>
       </div>
     </section>
   );

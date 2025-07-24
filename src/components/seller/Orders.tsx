@@ -1,56 +1,77 @@
 import React, { useState } from 'react';
-import { ChevronRightIcon, MagnifyingGlassIcon, FunnelIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon, MagnifyingGlassIcon, FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 interface Order {
   id: string;
   customer: {
     name: string;
     avatar: string;
+    email?: string;
+    phone?: string;
+    address?: string;
   };
   date: string;
   amount: number;
   status: 'Pending' | 'Shipped' | 'Delivered';
   items: number;
+  paymentMethod?: string;
+  shippingAddress?: string;
 }
 
 const Orders: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const orders: Order[] = [
     {
       id: '#HL-2841',
       customer: {
         name: 'Alice Johnson',
-        avatar: 'https://randomuser.me/api/portraits/women/44.jpg'
+        avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+        email: 'alice.johnson@email.com',
+        phone: '+250 788 123 456',
+        address: 'Kigali, Rwanda',
       },
       date: '2023-06-15',
       amount: 245000,
       status: 'Delivered',
-      items: 3
+      items: 3,
+      paymentMethod: 'Mobile Money',
+      shippingAddress: 'Kigali, Rwanda',
     },
     {
       id: '#HL-2840',
       customer: {
         name: 'Robert Smith',
-        avatar: 'https://randomuser.me/api/portraits/men/32.jpg'
+        avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+        email: 'robert.smith@email.com',
+        phone: '+250 788 654 321',
+        address: 'Huye, Rwanda',
       },
       date: '2023-06-14',
       amount: 180000,
       status: 'Shipped',
-      items: 2
+      items: 2,
+      paymentMethod: 'Credit Card',
+      shippingAddress: 'Huye, Rwanda',
     },
     {
       id: '#HL-2839',
       customer: {
         name: 'Maria Garcia',
-        avatar: 'https://randomuser.me/api/portraits/women/68.jpg'
+        avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
+        email: 'maria.garcia@email.com',
+        phone: '+250 788 987 654',
+        address: 'Musanze, Rwanda',
       },
       date: '2023-06-13',
       amount: 320000,
       status: 'Pending',
-      items: 5
+      items: 5,
+      paymentMethod: 'Cash on Delivery',
+      shippingAddress: 'Musanze, Rwanda',
     },
     {
       id: '#HL-2838',
@@ -77,7 +98,7 @@ const Orders: React.FC = () => {
   ];
 
   const filteredOrders = orders
-    .filter(order => 
+    .filter(order =>
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.customer.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
@@ -117,12 +138,85 @@ const Orders: React.FC = () => {
 
   return (
     <div className="p-6 bg-white rounded-xl shadow-sm border border-[#0D3547]/10">
+      {/* View Details Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative animate-fade-in">
+            <button
+              className="absolute top-4 right-4 text-[#0D3547] hover:text-[#8B5E3C] p-2 rounded-full transition"
+              onClick={() => setSelectedOrder(null)}
+              aria-label="Close"
+            >
+              <XMarkIcon className="h-6 w-6" />
+            </button>
+            <div className="flex items-center gap-4 mb-4">
+              <img src={selectedOrder.customer.avatar} alt={selectedOrder.customer.name} className="w-14 h-14 rounded-full object-cover border-2 border-[#8B5E3C]" />
+              <div>
+                <h2 className="text-xl font-bold text-[#0D3547]">{selectedOrder.customer.name}</h2>
+                <div className="text-sm text-[#0D3547]/70">Order {selectedOrder.id}</div>
+              </div>
+            </div>
+            <div className="mb-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Order Date:</span>
+                <span className="text-[#0D3547]/80">{new Date(selectedOrder.date).toLocaleDateString()}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Status:</span>
+                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusBadge(selectedOrder.status)}`}>{selectedOrder.status}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Items:</span>
+                <span className="text-[#0D3547]/80">{selectedOrder.items}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Total:</span>
+                <span className="text-[#8B5E3C] font-bold">RWF {selectedOrder.amount.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Payment:</span>
+                <span className="text-[#0D3547]/80">{selectedOrder.paymentMethod}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Shipping:</span>
+                <span className="text-[#0D3547]/80">{selectedOrder.shippingAddress}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Contact:</span>
+                <span className="text-[#0D3547]/80">{selectedOrder.customer.phone}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="font-medium text-[#0D3547]">Email:</span>
+                <span className="text-[#0D3547]/80">{selectedOrder.customer.email}</span>
+              </div>
+            </div>
+            {/* Actions */}
+            <div className="mt-6 flex flex-wrap gap-3 justify-end">
+              {selectedOrder.status === 'Pending' && (
+                <button className="px-4 py-2 rounded-lg bg-[#8B5E3C] text-white font-semibold hover:bg-[#0D3547] transition shadow">Mark as Shipped</button>
+              )}
+              {selectedOrder.status === 'Shipped' && (
+                <button className="px-4 py-2 rounded-lg bg-[#0D3547] text-white font-semibold hover:bg-[#8B5E3C] transition shadow">Mark as Delivered</button>
+              )}
+              {selectedOrder.status !== 'Delivered' && (
+                <button className="px-4 py-2 rounded-lg bg-red-100 text-red-700 font-semibold hover:bg-red-200 transition shadow">Cancel Order</button>
+              )}
+              <button
+                className="px-4 py-2 rounded-lg border border-[#0D3547]/20 text-[#0D3547] font-semibold hover:bg-[#0D3547]/5 transition shadow"
+                onClick={() => setSelectedOrder(null)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
         <div>
           <h1 className="text-2xl font-bold text-[#0D3547]">Order Management</h1>
           <p className="text-[#0D3547]/70">Track and manage customer orders</p>
         </div>
-        
+
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search Bar */}
           <div className="relative w-full sm:w-64">
@@ -162,8 +256,8 @@ const Orders: React.FC = () => {
         <table className="min-w-full divide-y divide-[#0D3547]/10">
           <thead className="bg-[#0D3547]/5">
             <tr>
-              <th 
-                scope="col" 
+              <th
+                scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-[#0D3547] uppercase tracking-wider cursor-pointer hover:text-[#8B5E3C] transition"
                 onClick={() => requestSort('id')}
               >
@@ -179,8 +273,8 @@ const Orders: React.FC = () => {
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#0D3547] uppercase tracking-wider">
                 Customer
               </th>
-              <th 
-                scope="col" 
+              <th
+                scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-[#0D3547] uppercase tracking-wider cursor-pointer hover:text-[#8B5E3C] transition"
                 onClick={() => requestSort('date')}
               >
@@ -193,8 +287,8 @@ const Orders: React.FC = () => {
                   )}
                 </div>
               </th>
-              <th 
-                scope="col" 
+              <th
+                scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-[#0D3547] uppercase tracking-wider cursor-pointer hover:text-[#8B5E3C] transition"
                 onClick={() => requestSort('amount')}
               >
@@ -251,7 +345,10 @@ const Orders: React.FC = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="group flex items-center text-[#0D3547] hover:text-[#8B5E3C] transition">
+                    <button
+                      className="group flex items-center text-[#0D3547] hover:text-[#8B5E3C] transition"
+                      onClick={() => setSelectedOrder(order)}
+                    >
                       View Details
                       <ChevronRightIcon className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </button>

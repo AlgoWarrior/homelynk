@@ -19,33 +19,33 @@ const HeroSection = () => {
   const [search, setSearch] = useState('');
 
   return (
-    <section className="relative w-full bg-gray-100 overflow-hidden">
+    <section className="relative w-full bg-gray-100 overflow-hidden min-h-screen h-screen flex flex-col justify-center">
       {/* Hero Banner */}
-      <div className="relative w-full h-[340px] md:h-[420px] flex items-center justify-center">
+      <div className="relative w-full h-full flex items-center justify-center">
         <img
           src={HERO_IMAGE}
           alt="Hero banner"
           className="absolute inset-0 w-full h-full object-cover object-center z-0"
         />
-        {/* Gradient overlay for readability (reduced for more image visibility) */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/30 to-transparent z-10" />
+        {/* Gradient overlay for readability (slightly darker for floating navbar) */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/50 to-black/10 z-10" />
         {/* Content overlay */}
-        <div className="relative z-20 flex flex-col items-start justify-center h-full px-6 md:px-16 max-w-3xl">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-[#0D3547] mb-4 drop-shadow-lg">
+        <div className="relative z-20 flex flex-col items-start justify-center h-full px-6 md:px-16 max-w-3xl mt-0">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-[#0D3547] mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]">
             Everything for your home, delivered fast
           </h1>
           {/* Search Bar */}
           <form className="w-full flex mt-2" onSubmit={e => e.preventDefault()}>
             <input
               type="text"
-              className="flex-1 px-4 py-3 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0D3547] text-gray-700 text-base shadow"
+              className="flex-1 px-4 py-3 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0D3547] text-gray-800 text-base shadow placeholder-gray-600"
               placeholder="Search for products, brands, or categories..."
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
             <button
               type="submit"
-              className="rounded-r-full bg-[#ffd814] px-6 py-3 text-[#0D3547] font-bold hover:bg-[#f7ca00] transition-colors flex items-center text-base shadow"
+              className="rounded-r-full bg-[#ffd814] px-6 py-3 text-[#0D3547] font-bold hover:bg-[#f7ca00] transition-colors flex items-center text-base shadow drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
               aria-label="Search"
             >
               <MagnifyingGlassIcon className="h-5 w-5 mr-1" /> Search
@@ -53,7 +53,7 @@ const HeroSection = () => {
           </form>
           {/* CTA */}
           <button
-            className="mt-6 flex items-center gap-2 px-6 py-3 rounded-full bg-[#ffa41c] text-[#0D3547] font-bold text-base shadow hover:bg-[#ff9900] transition-colors"
+            className="mt-6 flex items-center gap-2 px-6 py-3 rounded-full bg-[#ffa41c] text-[#0D3547] font-bold text-base shadow drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)] hover:bg-[#ff9900] transition-colors"
             aria-label="Shop Today's Deals"
           >
             <TagIcon className="h-5 w-5" /> Shop Today's Deals <ChevronRightIcon className="h-5 w-5" />

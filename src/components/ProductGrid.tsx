@@ -1,7 +1,9 @@
 // src/components/ProductGrid.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import ProductCard from './ProductCard';
+import CategoryGrid from './CategoryGrid';
 
 const newArrivals = [
   {
@@ -93,15 +95,37 @@ const discountedProducts = [
   }
 ];
 
+// Helper to generate a random discount percentage
+const getRandomDiscount = () => {
+  const discounts = [-5, -10, -13, -7, -15, -8];
+  return discounts[Math.floor(Math.random() * discounts.length)];
+};
+
 const ProductGrid: React.FC = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-8 space-y-12">
-      {/* ✅ New Arrivals */}
-      <div>
-        <h2 className="text-2xl font-bold text-[#0D3547] mb-4">New Arrivals</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <section className="max-w-7xl mx-auto px-4 py-10 space-y-10 relative">
+      {/* All Products Arrow Button */}
+      <div className="flex justify-end mb-2">
+        <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
+          View All Products
+          <ArrowRightIcon className="h-5 w-5" />
+        </Link>
+      </div>
+      {/* New Arrivals */}
+      <div className="bg-gradient-to-br from-[#FAF3E0]/60 to-white/60 rounded-3xl shadow-md p-5 md:p-8 lg:p-10 transition-all duration-500 backdrop-blur-md bg-white/60 border border-white/30">
+        <div className="flex justify-between items-center mb-4 lg:mb-6">
+          <h2 className="text-3xl font-extrabold text-[#0D3547] tracking-tight flex items-center gap-2">
+            <span className="inline-block w-2 h-6 bg-[#8B5E3C] rounded-full mr-2 animate-pulse"></span>
+            New Arrivals
+          </h2>
+          <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
+            View All <ArrowRightIcon className="h-5 w-5" />
+          </Link>
+        </div>
+        <p className="text-[#0D3547]/60 mb-5 text-base">Freshly added products for your home and office</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10 animate-fade-in">
           {newArrivals.map(product => (
-            <Link to={`/products/${product.id}`} key={product.id}>
+            <Link to={`/products/${product.id}`} key={product.id} className="hover:no-underline">
               <ProductCard
                 imageUrl={product.imageUrl}
                 name={product.name}
@@ -113,12 +137,28 @@ const ProductGrid: React.FC = () => {
         </div>
       </div>
 
-      {/* ✅ Featured Products */}
-      <div>
-        <h2 className="text-2xl font-bold text-[#0D3547] mb-4">Featured Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {/* Divider */}
+      <div className="w-full h-2 flex items-center justify-center my-3 lg:my-5">
+        <span className="block w-2 h-2 bg-[#8B5E3C] rounded-full animate-bounce mx-1"></span>
+        <span className="block w-32 h-1 bg-gradient-to-r from-transparent via-[#8B5E3C]/30 to-transparent rounded-full"></span>
+        <span className="block w-2 h-2 bg-[#8B5E3C] rounded-full animate-bounce mx-1"></span>
+      </div>
+
+      {/* Featured Products */}
+      <div className="bg-gradient-to-br from-[#F0F4F8]/60 to-white/60 rounded-3xl shadow-md p-5 md:p-8 lg:p-10 transition-all duration-500 backdrop-blur-md bg-white/60 border border-white/30">
+        <div className="flex justify-between items-center mb-4 lg:mb-6">
+          <h2 className="text-3xl font-extrabold text-[#0D3547] tracking-tight flex items-center gap-2">
+            <span className="inline-block w-2 h-6 bg-[#0D3547] rounded-full mr-2 animate-pulse"></span>
+            Featured Products
+          </h2>
+          <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
+            View All <ArrowRightIcon className="h-5 w-5" />
+          </Link>
+        </div>
+        <p className="text-[#0D3547]/60 mb-5 text-base">Handpicked highlights for you</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10 animate-fade-in">
           {featuredProducts.map(product => (
-            <Link to={`/products/${product.id}`} key={product.id}>
+            <Link to={`/products/${product.id}`} key={product.id} className="hover:no-underline">
               <ProductCard
                 imageUrl={product.imageUrl}
                 name={product.name}
@@ -130,19 +170,41 @@ const ProductGrid: React.FC = () => {
         </div>
       </div>
 
-      {/* ✅ Discounted Products */}
-      <div>
-        <h2 className="text-2xl font-bold text-[#0D3547] mb-4">Discounted Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {/* Divider */}
+      <div className="w-full h-2 flex items-center justify-center my-3 lg:my-5">
+        <span className="block w-2 h-2 bg-[#0D3547] rounded-full animate-bounce mx-1"></span>
+        <span className="block w-32 h-1 bg-gradient-to-r from-transparent via-[#0D3547]/20 to-transparent rounded-full"></span>
+        <span className="block w-2 h-2 bg-[#0D3547] rounded-full animate-bounce mx-1"></span>
+      </div>
+
+      {/* Discounted Products */}
+      <div className="bg-gradient-to-br from-[#FFF7ED]/60 to-white/60 rounded-3xl shadow-md p-5 md:p-8 lg:p-10 transition-all duration-500 backdrop-blur-md bg-white/60 border border-white/30">
+        <div className="flex justify-between items-center mb-4 lg:mb-6">
+          <h2 className="text-3xl font-extrabold text-[#8B5E3C] tracking-tight flex items-center gap-2">
+            <span className="inline-block w-2 h-6 bg-[#0D3547] rounded-full mr-2 animate-pulse"></span>
+            Discounted Products
+          </h2>
+          <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
+            View All <ArrowRightIcon className="h-5 w-5" />
+          </Link>
+        </div>
+        <p className="text-[#0D3547]/60 mb-5 text-base">Save more with these special offers</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10 animate-fade-in">
           {discountedProducts.map(product => (
-            <Link to={`/products/${product.id}`} key={product.id}>
-              <ProductCard
-                imageUrl={product.imageUrl}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-              />
-            </Link>
+            <div key={product.id} className="relative">
+              {/* Discount badge */}
+              <span className="absolute top-3 left-3 z-10 bg-[#8B5E3C] text-white text-xs font-bold rounded-full px-3 py-1 shadow-lg select-none">
+                {getRandomDiscount()}%
+              </span>
+              <Link to={`/products/${product.id}`} className="hover:no-underline block">
+                <ProductCard
+                  imageUrl={product.imageUrl}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                />
+              </Link>
+            </div>
           ))}
         </div>
       </div>
