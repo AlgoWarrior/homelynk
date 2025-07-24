@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { StarIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/react/24/solid';
 import { HeartIcon as HeartOutline, ArrowLeftIcon } from '@heroicons/react/24/outline';
 

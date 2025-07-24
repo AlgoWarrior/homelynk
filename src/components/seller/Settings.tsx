@@ -1,27 +1,14 @@
 import React, { useState } from 'react';
-import { 
-  CameraIcon, 
-  PencilIcon, 
+import {
+  CameraIcon,
   LockClosedIcon,
   BellIcon,
   CreditCardIcon,
   CogIcon,
   ShieldCheckIcon,
-  GlobeAltIcon,
-  ChartBarIcon,
   UserGroupIcon,
-  ClockIcon,
-  MapPinIcon,
-  PhoneIcon,
-  EnvelopeIcon,
   CheckCircleIcon
 } from '@heroicons/react/24/outline';
-
-interface SettingsSection {
-  id: string;
-  name: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -186,11 +173,10 @@ const Settings = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
-                    activeTab === tab.id
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${activeTab === tab.id
                       ? 'bg-[#0D3547] text-white shadow-md'
                       : 'text-gray-700 hover:bg-gray-50 hover:text-[#0D3547]'
-                  }`}
+                    }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span className="font-medium">{tab.name}</span>
@@ -209,86 +195,86 @@ const Settings = () => {
                 <h2 className="text-xl font-semibold text-[#0D3547]">Profile Information</h2>
               </div>
 
-        <form onSubmit={handleProfileSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="md:col-span-2 flex flex-col items-center mb-4">
-              <div className="relative mb-4">
-                <img 
-                  src={profile.profilePreview} 
-                  alt="Profile" 
-                  className="w-24 h-24 rounded-full object-cover border-2 border-[#8B5E3C]"
-                />
-                <label 
-                  htmlFor="profilePicture"
-                  className="absolute bottom-0 right-0 bg-[#0D3547] p-2 rounded-full cursor-pointer hover:bg-[#0D3547]/90 transition"
-                >
-                  <CameraIcon className="h-4 w-4 text-white" />
-                  <input 
-                    id="profilePicture" 
-                    type="file" 
-                    accept="image/*" 
-                    className="hidden" 
-                    onChange={handleProfilePictureChange}
-                  />
-                </label>
-              </div>
-              <span className="text-sm text-gray-500">Click to change profile picture</span>
-            </div>
+              <form onSubmit={handleProfileSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="md:col-span-2 flex flex-col items-center mb-4">
+                    <div className="relative mb-4">
+                      <img
+                        src={profile.profilePreview}
+                        alt="Profile"
+                        className="w-24 h-24 rounded-full object-cover border-2 border-[#8B5E3C]"
+                      />
+                      <label
+                        htmlFor="profilePicture"
+                        className="absolute bottom-0 right-0 bg-[#0D3547] p-2 rounded-full cursor-pointer hover:bg-[#0D3547]/90 transition"
+                      >
+                        <CameraIcon className="h-4 w-4 text-white" />
+                        <input
+                          id="profilePicture"
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleProfilePictureChange}
+                        />
+                      </label>
+                    </div>
+                    <span className="text-sm text-gray-500">Click to change profile picture</span>
+                  </div>
 
-            <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                value={profile.fullName}
-                onChange={handleProfileChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B5E3C] focus:border-[#0D3547] transition"
-                required
-              />
-            </div>
+                  <div>
+                    <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
+                      Full Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      value={profile.fullName}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B5E3C] focus:border-[#0D3547] transition"
+                      required
+                    />
+                  </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={profile.email}
-                onChange={handleProfileChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B5E3C] focus:border-[#0D3547] transition"
-                required
-              />
-            </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={profile.email}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B5E3C] focus:border-[#0D3547] transition"
+                      required
+                    />
+                  </div>
 
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={profile.phone}
-                onChange={handleProfileChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B5E3C] focus:border-[#0D3547] transition"
-              />
-            </div>
-          </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={profile.phone}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B5E3C] focus:border-[#0D3547] transition"
+                    />
+                  </div>
+                </div>
 
-              <div className="mt-6">
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-[#0D3547] text-white rounded-lg hover:bg-[#0D3547]/90 transition focus:outline-none focus:ring-2 focus:ring-[#8B5E3C]"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </form>
+                <div className="mt-6">
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-[#0D3547] text-white rounded-lg hover:bg-[#0D3547]/90 transition focus:outline-none focus:ring-2 focus:ring-[#8B5E3C]"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
             </div>
           )}
 
@@ -304,21 +290,21 @@ const Settings = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2 flex flex-col items-center mb-6">
                     <div className="relative mb-4">
-                      <img 
-                        src={store.logoPreview} 
-                        alt="Store Logo" 
+                      <img
+                        src={store.logoPreview}
+                        alt="Store Logo"
                         className="w-24 h-24 rounded-lg object-cover border-2 border-[#8B5E3C]"
                       />
-                      <label 
+                      <label
                         htmlFor="storeLogo"
                         className="absolute bottom-0 right-0 bg-[#0D3547] p-2 rounded-full cursor-pointer hover:bg-[#0D3547]/90 transition"
                       >
                         <CameraIcon className="h-4 w-4 text-white" />
-                        <input 
-                          id="storeLogo" 
-                          type="file" 
-                          accept="image/*" 
-                          className="hidden" 
+                        <input
+                          id="storeLogo"
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
                           onChange={handleLogoChange}
                         />
                       </label>

@@ -114,10 +114,13 @@ const Orders: React.FC = () => {
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
     if (!sortConfig) return 0;
-    if (a[sortConfig.key as keyof Order] < b[sortConfig.key as keyof Order]) {
+    const aValue = a[sortConfig.key as keyof Order];
+    const bValue = b[sortConfig.key as keyof Order];
+    if (aValue == null || bValue == null) return 0;
+    if (aValue < bValue) {
       return sortConfig.direction === 'ascending' ? -1 : 1;
     }
-    if (a[sortConfig.key as keyof Order] > b[sortConfig.key as keyof Order]) {
+    if (aValue > bValue) {
       return sortConfig.direction === 'ascending' ? 1 : -1;
     }
     return 0;

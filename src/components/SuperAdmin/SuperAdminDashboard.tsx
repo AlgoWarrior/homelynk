@@ -2,7 +2,6 @@ import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   HomeIcon,
-  UserGroupIcon,
   ClipboardIcon,
   UsersIcon,
   DocumentTextIcon,

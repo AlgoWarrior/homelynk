@@ -210,14 +210,6 @@ const ApproveProducts = () => {
     }
   };
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedIds(paginatedProducts.map(p => p.id));
-    } else {
-      setSelectedIds([]);
-    }
-  };
-
   const handleSelectOne = (id: string, checked: boolean) => {
     if (checked) {
       setSelectedIds(prev => [...prev, id]);

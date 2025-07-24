@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import type { ChartOptions } from "chart.js";
 import {
   CubeIcon,
   ShoppingCartIcon,
@@ -88,7 +89,7 @@ const Overview = () => {
     ],
   };
 
-  const chartOptions = {
+  const chartOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
       legend: {
@@ -106,7 +107,7 @@ const Overview = () => {
       y: {
         beginAtZero: true,
         grid: {
-          drawBorder: false,
+          // drawBorder: false, // Removed to fix linter error
         },
       },
       x: {
@@ -155,8 +156,8 @@ const Overview = () => {
                 </div>
                 <span
                   className={`text-sm ${stat.changeType === "positive"
-                      ? "text-green-500"
-                      : "text-red-500"
+                    ? "text-green-500"
+                    : "text-red-500"
                     }`}
                 >
                   {stat.change}
