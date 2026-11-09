@@ -1,189 +1,25 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CheckCircleIcon, LockClosedIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl?: string;
+const demoItems=[{id:1,name:'Mira Lounge Chair',price:95000,quantity:1,image:'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=300&q=80'},{id:2,name:'Oakline Coffee Table',price:120000,quantity:1,image:'https://images.unsplash.com/photo-1499933374294-4584851497cc?auto=format&fit=crop&w=300&q=80'}];
+export default function Checkout(){
+ const [customer,setCustomer]=useState({name:'',email:'',phone:'',address:''});
+ const [payment,setPayment]=useState('mobile');
+ const [placed,setPlaced]=useState(false);
+ const subtotal=demoItems.reduce((sum,item)=>sum+item.price*item.quantity,0),shipping=5000,total=subtotal+shipping;
+ const orderId='HL-'+new Date().getFullYear()+'-0248';
+ const submit=(event:React.FormEvent)=>{event.preventDefault();setPlaced(true);};
+ if(placed)return <main className="min-h-[75vh] flex items-center justify-center px-5 pt-28 pb-16"><div className="max-w-lg w-full bg-white border border-[#e9e6df] p-8 md:p-12 text-center"><div className="mx-auto w-16 h-16 rounded-full bg-[#edf3ef] grid place-items-center text-[#47765f]"><CheckCircleIcon className="w-9 h-9"/></div><span className="eyebrow eyebrow--dark mt-6">DEMO ORDER CREATED</span><h1 className="font-serif text-4xl text-[#173943] mt-3">Thank you, {customer.name.split(' ')[0]}.</h1><p className="text-sm text-[#788381] mt-3 leading-7">Your sample order has been completed in this frontend demonstration. No payment was collected and no real order was submitted.</p><div className="bg-[#f8f6f1] p-4 my-6 text-left"><p className="text-[9px] tracking-widest text-[#9b6749] font-bold">DEMO REFERENCE</p><p className="font-bold text-[#173943] mt-1">{orderId}</p></div><Link to="/" className="inline-block bg-[#173943] text-white px-7 py-3 text-xs font-bold">BACK TO HOMEPAGE</Link></div></main>;
+ return <main className="max-w-[1180px] mx-auto px-5 md:px-8 pt-32 pb-20">
+  <Link to="/cart" className="inline-flex items-center gap-2 text-xs font-bold text-[#9b6749] mb-7"><ArrowLeftIcon className="w-4 h-4"/> BACK TO BAG</Link>
+  <div className="mb-9"><span className="eyebrow eyebrow--dark">ALMOST YOURS</span><h1 className="font-serif text-5xl text-[#173943] mt-2">Checkout<span className="text-[#9b6749]">.</span></h1><p className="text-xs text-[#788381] mt-2">A simple, secure way to complete your order.</p></div>
+  <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-[1fr_390px] gap-8">
+   <div className="space-y-6">
+    <section className="bg-white border border-[#e9e6df] p-6 md:p-8"><div className="flex items-center gap-3 mb-6"><span className="w-7 h-7 bg-[#173943] text-white grid place-items-center text-xs">1</span><h2 className="font-serif text-2xl text-[#173943]">Delivery details</h2></div><div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{([{key:'name',label:'Full name',type:'text',placeholder:'Your full name'},{key:'email',label:'Email address',type:'email',placeholder:'you@example.com'},{key:'phone',label:'Phone number',type:'tel',placeholder:'+250 7XX XXX XXX'},{key:'address',label:'Delivery address',type:'text',placeholder:'Street, sector, district'}] as const).map(field=><label key={field.key} className="block"><span className="block text-[10px] uppercase tracking-widest font-bold text-[#788381] mb-2">{field.label}</span><input required type={field.type} placeholder={field.placeholder} value={customer[field.key]} onChange={e=>setCustomer({...customer,[field.key]:e.target.value})} className="w-full border border-[#e5e1d8] bg-[#fdfcf9] p-3 text-sm text-[#173943] outline-none focus:border-[#9b6749]"/></label>)}</div></section>
+    <section className="bg-white border border-[#e9e6df] p-6 md:p-8"><div className="flex items-center gap-3 mb-6"><span className="w-7 h-7 bg-[#173943] text-white grid place-items-center text-xs">2</span><h2 className="font-serif text-2xl text-[#173943]">Payment method</h2></div><div className="space-y-3">{[{id:'mobile',title:'Mobile Money',detail:'MTN MoMo / Airtel Money'},{id:'cash',title:'Cash on delivery',detail:'Pay when your order arrives'},{id:'card',title:'Bank card',detail:'Visa / Mastercard (demo only)'}].map(option=><label key={option.id} className={`flex gap-3 border p-4 cursor-pointer transition ${payment===option.id?'border-[#9b6749] bg-[#fbf7f2]':'border-[#e9e6df]'}`}><input type="radio" name="payment" value={option.id} checked={payment===option.id} onChange={()=>setPayment(option.id)} className="accent-[#9b6749] mt-1"/><span><strong className="block text-sm text-[#173943]">{option.title}</strong><small className="text-xs text-[#788381]">{option.detail}</small></span></label>)}</div><p className="mt-4 text-[10px] leading-5 text-[#9b6749] bg-[#f8f4ef] p-3">Presentation demo: payment options are illustrative. No payment gateway is connected.</p></section>
+   </div>
+   <aside className="bg-white border border-[#e9e6df] p-6 h-fit lg:sticky lg:top-28"><h2 className="font-serif text-2xl text-[#173943] mb-5">Your order</h2><div className="space-y-4">{demoItems.map(item=><div key={item.id} className="flex gap-3 items-center"><img src={item.image} alt="" className="w-16 h-16 object-cover"/><div className="flex-1"><p className="text-xs font-bold text-[#173943]">{item.name}</p><p className="text-[10px] text-[#788381]">Qty {item.quantity}</p></div><strong className="text-xs text-[#9b6749]">RWF {item.price.toLocaleString('en-US')}</strong></div>)}</div><div className="border-t border-[#e9e6df] mt-5 pt-5 space-y-3 text-xs"><div className="flex justify-between text-[#788381]"><span>Subtotal</span><span>RWF {subtotal.toLocaleString('en-US')}</span></div><div className="flex justify-between text-[#788381]"><span>Delivery</span><span>RWF {shipping.toLocaleString('en-US')}</span></div><div className="border-t border-[#e9e6df] pt-4 flex justify-between font-bold text-[#173943]"><span>Total</span><span className="text-[#9b6749]">RWF {total.toLocaleString('en-US')}</span></div></div><button type="submit" className="mt-6 w-full bg-[#173943] text-white py-4 text-xs font-bold tracking-wide hover:bg-[#9b6749] transition">PLACE DEMO ORDER</button><p className="mt-4 flex items-center justify-center gap-2 text-[10px] text-[#788381]"><LockClosedIcon className="w-3.5 h-3.5"/> Demo experience · no payment collected</p></aside>
+  </form>
+ </main>;
 }
-
-const dummyCartItems: CartItem[] = [
-  { id: 1, name: 'Modern Wooden Coffee Table', price: 120000, quantity: 1, imageUrl: 'https://images.unsplash.com/photo-1627201328438-8751f597f9f3?w=600&auto=format&fit=crop&q=60' },
-  { id: 2, name: 'Office Chair', price: 75000, quantity: 2, imageUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=958&auto=format&fit=crop' },
-];
-
-const Checkout: React.FC = () => {
-  const [customer, setCustomer] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
-  });
-
-  const [paymentMethod, setPaymentMethod] = useState('credit');
-  const [placingOrder, setPlacingOrder] = useState(false);
-  const [orderPlaced, setOrderPlaced] = useState(false);
-
-  const total = dummyCartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
-  const handlePlaceOrder = () => {
-    setPlacingOrder(true);
-    setTimeout(() => {
-      setOrderPlaced(true);
-      setPlacingOrder(false);
-    }, 1200);
-  };
-
-  if (orderPlaced) {
-    return (
-      <div className="max-w-xl mx-auto px-4 py-16 flex flex-col items-center text-center">
-        <svg className="h-16 w-16 text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-        <h2 className="text-2xl font-bold text-[#0D3547] mb-2">Order Placed!</h2>
-        <p className="text-[#0D3547]/70 mb-6">Thank you for your purchase. You will receive a confirmation email soon.</p>
-        <a href="/" className="inline-block px-6 py-3 bg-[#0D3547] text-white rounded-lg font-semibold hover:bg-[#8B5E3C] transition">Back to Home</a>
-      </div>
-    );
-  }
-
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      {/* Progress Indicator */}
-      <div className="flex items-center justify-center mb-10">
-        <div className="flex items-center gap-2">
-          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0D3547] text-white font-bold">1</span>
-          <span className="text-[#0D3547] font-medium">Details</span>
-        </div>
-        <span className="w-8 h-1 bg-[#8B5E3C]/30 mx-2 rounded-full"></span>
-        <div className="flex items-center gap-2">
-          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#8B5E3C] text-white font-bold">2</span>
-          <span className="text-[#8B5E3C] font-medium">Payment</span>
-        </div>
-        <span className="w-8 h-1 bg-[#8B5E3C]/30 mx-2 rounded-full"></span>
-        <div className="flex items-center gap-2">
-          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-[#0D3547] font-bold">3</span>
-          <span className="text-[#0D3547]/60 font-medium">Complete</span>
-        </div>
-      </div>
-
-      <h1 className="text-3xl font-extrabold text-[#0D3547] mb-8 tracking-tight text-center">Checkout</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Customer Info & Payment */}
-        <div className="space-y-8">
-          {/* Customer Info */}
-          <div className="bg-white p-6 rounded-2xl shadow-lg space-y-4">
-            <h2 className="text-lg font-semibold text-[#0D3547] mb-2">Customer Information</h2>
-            <div className="grid grid-cols-1 gap-4">
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="border border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-[#8B5E3C]/40 focus:border-[#8B5E3C]"
-                value={customer.fullName}
-                onChange={(e) => setCustomer({ ...customer, fullName: e.target.value })}
-                required
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="border border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-[#8B5E3C]/40 focus:border-[#8B5E3C]"
-                value={customer.email}
-                onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Phone"
-                className="border border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-[#8B5E3C]/40 focus:border-[#8B5E3C]"
-                value={customer.phone}
-                onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Address"
-                className="border border-gray-200 p-3 rounded-lg focus:ring-2 focus:ring-[#8B5E3C]/40 focus:border-[#8B5E3C]"
-                value={customer.address}
-                onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Payment Method */}
-          <div className="bg-white p-6 rounded-2xl shadow-lg space-y-4">
-            <h2 className="text-lg font-semibold text-[#0D3547] mb-2">Payment Method</h2>
-            <div className="space-y-3">
-              <label className="flex items-center space-x-3 text-[#0D3547] cursor-pointer">
-                <input
-                  type="radio"
-                  name="payment"
-                  value="credit"
-                  checked={paymentMethod === 'credit'}
-                  onChange={() => setPaymentMethod('credit')}
-                  className="accent-[#8B5E3C]"
-                />
-                <span>Credit Card</span>
-              </label>
-              <label className="flex items-center space-x-3 text-[#0D3547] cursor-pointer">
-                <input
-                  type="radio"
-                  name="payment"
-                  value="mobile"
-                  checked={paymentMethod === 'mobile'}
-                  onChange={() => setPaymentMethod('mobile')}
-                  className="accent-[#8B5E3C]"
-                />
-                <span>Mobile Money</span>
-              </label>
-              <label className="flex items-center space-x-3 text-[#0D3547] cursor-pointer">
-                <input
-                  type="radio"
-                  name="payment"
-                  value="cash"
-                  checked={paymentMethod === 'cash'}
-                  onChange={() => setPaymentMethod('cash')}
-                  className="accent-[#8B5E3C]"
-                />
-                <span>Cash on Delivery</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Order Summary */}
-        <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 h-fit">
-          <h2 className="text-lg font-semibold text-[#0D3547] mb-2">Order Summary</h2>
-          <ul className="divide-y divide-gray-100">
-            {dummyCartItems.map((item) => (
-              <li key={item.id} className="py-4 flex items-center gap-4">
-                <img src={item.imageUrl} alt={item.name} className="w-16 h-16 rounded-lg object-cover border border-gray-100" />
-                <div className="flex-1">
-                  <div className="font-medium text-[#0D3547]">{item.name}</div>
-                  <div className="text-sm text-[#0D3547]/60">Qty: {item.quantity}</div>
-                </div>
-                <div className="font-bold text-[#8B5E3C] text-lg">RWF {(item.price * item.quantity).toLocaleString()}</div>
-              </li>
-            ))}
-          </ul>
-          <div className="flex justify-between font-bold text-[#0D3547] text-lg border-t border-gray-100 pt-4">
-            <span>Total:</span>
-            <span>RWF {total.toLocaleString()}</span>
-          </div>
-          <button
-            onClick={handlePlaceOrder}
-            disabled={placingOrder}
-            className="w-full mt-6 bg-gradient-to-r from-[#0D3547] to-[#8B5E3C] text-white py-3 px-6 rounded-xl shadow-lg hover:from-[#8B5E3C] hover:to-[#0D3547] font-semibold text-lg transition disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {placingOrder ? 'Placing Order...' : 'Place Order'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Checkout;
