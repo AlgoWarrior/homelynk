@@ -1,59 +1,30 @@
-import React from 'react';
-import CategoryCard from './CategoryCard';
 import { Link } from 'react-router-dom';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 
 const categories = [
-  {
-    title: 'Living Room',
-    imageUrl: 'https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGxpdmluZyUyMHJvb218ZW58MHx8MHx8fDA%3D',
-  },
-  {
-    title: 'Bedroom',
-    imageUrl: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJlZHJvb218ZW58MHx8MHx8fDA%3D',
-  },
-  {
-    title: 'Office',
-    imageUrl: 'https://images.unsplash.com/photo-1705909770198-7e83c24e1616?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIzfHx8ZW58MHx8fHx8',
-  },
-  {
-    title: 'Outdoor',
-    imageUrl: 'https://images.unsplash.com/photo-1618106564892-b5202ed366f3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fG91dGRvb3IlMjBmdXJuaXR1cmV8ZW58MHx8MHx8fDA%3D',
-  },
-  {
-    title: 'Custom Made',
-    imageUrl: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y3VzdG9tJTIwbWFkZSUyMGZ1cm5pdHVyZXxlbnwwfHwwfHx8MA%3D%3D',
-  },
+  { title: 'Living Room', note: 'Sofas, tables & statement pieces', imageUrl: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=85' },
+  { title: 'Bedroom', note: 'Restful spaces, made personal', imageUrl: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=85' },
+  { title: 'Dining', note: 'Gather around something beautiful', imageUrl: 'https://images.unsplash.com/photo-1604578762246-41134e37f9cc?auto=format&fit=crop&w=900&q=85' },
+  { title: 'Office', note: 'Work comfortably and beautifully', imageUrl: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85' },
 ];
 
-const CategoryGrid: React.FC = () => {
+export default function CategoryGrid() {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-[#0F766E] mb-8 text-center tracking-tight">
-        Shop by Category
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10">
-        {categories.slice(0, 3).map((category) => (
-          <CategoryCard
-            key={category.title}
-            title={category.title}
-            imageUrl={category.imageUrl}
-          />
+    <section className="category-section">
+      <div className="section-heading">
+        <div><span className="eyebrow eyebrow--dark">CURATED FOR EVERY CORNER</span><h2>Spaces that feel like <em>you.</em></h2></div>
+        <Link to="/all-products" className="text-link">Explore all products <ArrowUpRightIcon className="h-4 w-4" /></Link>
+      </div>
+      <div className="category-grid">
+        {categories.map((category, index) => (
+          <Link to={`/all-products?category=${encodeURIComponent(category.title)}`} key={category.title} className={`category-tile category-tile--${index + 1}`}>
+            <img src={category.imageUrl} alt={category.title} />
+            <div className="category-tile__overlay" />
+            <div className="category-tile__copy"><span>0{index + 1} / COLLECTION</span><h3>{category.title}</h3><p>{category.note}</p></div>
+            <span className="category-tile__arrow"><ArrowUpRightIcon className="h-5 w-5" /></span>
+          </Link>
         ))}
-        {/* Explore More Card */}
-        <Link
-          to="/all-products"
-          className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#0F766E]/30 bg-white/60 shadow-lg p-8 hover:bg-[#0F766E]/10 transition group min-h-[220px] text-center"
-        >
-          <span className="text-xl font-bold text-[#0F766E] mb-2 group-hover:text-[#8B5E3C] transition">Explore More</span>
-          <span className="text-[#0D3547]/70 mb-4 text-sm">Discover all categories and products</span>
-          <span className="inline-flex items-center gap-1 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
-            See All <ArrowRightIcon className="h-5 w-5" />
-          </span>
-        </Link>
       </div>
     </section>
   );
-};
-
-export default CategoryGrid;
+}
