@@ -1,214 +1,24 @@
-// src/components/ProductGrid.tsx
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import ProductCard from './ProductCard';
 
-const newArrivals = [
-  {
-    id: 1,
-    name: 'Modern Wooden Coffee Table',
-    description: 'Solid oak wood, modern look.',
-    price: 120000,
-    category: 'Living Room',
-    location: 'Kigali',
-    imageUrl: 'https://images.unsplash.com/photo-1627201328438-8751f597f9f3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8',
-  },
-  {
-    id: 2,
-    name: 'Modern Wooden Coffee Table',
-    description: 'Solid oak wood, modern look.',
-    price: 120000,
-    category: 'Living Room',
-    location: 'Kigali',
-    imageUrl: 'https://images.unsplash.com/photo-1616497633466-6c3f7a0cfa93?w=600&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 3,
-    name: 'Office Chair',
-    description: 'Comfortable ergonomic chair.',
-    price: 75000,
-    category: 'Office',
-    location: 'Musanze',
-    imageUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=958&auto=format&fit=crop',
-  },
+const items=[
+{id:1,name:'Oakline Coffee Table',description:'Solid timber, clean architectural lines.',price:120000,imageUrl:'https://images.unsplash.com/photo-1499933374294-4584851497cc?auto=format&fit=crop&w=900&q=85'},
+{id:2,name:'Mira Lounge Chair',description:'A soft silhouette with a warm finish.',price:95000,imageUrl:'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=900&q=85'},
+{id:3,name:'Forma Work Chair',description:'Everyday comfort for focused work.',price:75000,imageUrl:'https://images.unsplash.com/photo-1506377295352-e3154d43ea9e?auto=format&fit=crop&w=900&q=85'},
+{id:4,name:'Atelier Dining Table',description:'A welcoming centrepiece for gathering.',price:210000,imageUrl:'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=900&q=85'},
+{id:5,name:'Nia Platform Bed',description:'Quiet, minimal design for better rest.',price:350000,imageUrl:'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=85'},
+{id:6,name:'Studio Writing Desk',description:'Compact workspace with generous storage.',price:85000,imageUrl:'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85'},
+{id:7,name:'Luma Three-Seater',description:'Relaxed proportions and textured upholstery.',price:220000,imageUrl:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85'},
+{id:8,name:'Tala Bookshelf',description:'Open shelving for the things you love.',price:60000,imageUrl:'https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=900&q=85'}
 ];
-
-const featuredProducts = [
-  {
-    id: 4,
-    name: 'Executive Office Desk',
-    description: 'Elegant desk for modern offices.',
-    price: 180000,
-    category: 'Office',
-    location: 'Kigali',
-    imageUrl: 'https://images.unsplash.com/photo-1558645574-1b4b00e2c74b?w=600&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 5,
-    name: 'Lounge Sofa',
-    description: 'Cozy fabric sofa for your living room.',
-    price: 220000,
-    category: 'Living Room',
-    location: 'Huye',
-    imageUrl: 'https://images.unsplash.com/photo-1616497633466-6c3f7a0cfa93?w=600&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 6,
-    name: 'Vintage Armchair - 20% Off',
-    description: 'Classic style with discount.',
-    price: 60000,
-    category: 'Living Room',
-    location: 'Rwamagana',
-    imageUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=958&auto=format&fit=crop',
-  },
-];
-
-const discountedProducts = [
-  {
-    id: 7,
-    name: 'Vintage Armchair - 20% Off',
-    description: 'Classic style with discount.',
-    price: 60000,
-    category: 'Living Room',
-    location: 'Rwamagana',
-    imageUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=958&auto=format&fit=crop',
-  },
-  {
-    id: 8,
-    name: 'Study Desk - 15% Off',
-    description: 'Compact desk for study.',
-    price: 85000,
-    category: 'Office',
-    location: 'Musanze',
-    imageUrl: 'https://images.unsplash.com/photo-1616497633466-6c3f7a0cfa93?w=600&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 9,
-    name: 'Lounge Sofa',
-    description: 'Cozy fabric sofa for your living room.',
-    price: 220000,
-    category: 'Living Room',
-    location: 'Huye',
-    imageUrl: 'https://images.unsplash.com/photo-1616497633466-6c3f7a0cfa93?w=600&auto=format&fit=crop&q=60',
-  }
-];
-
-// Helper to generate a random discount percentage
-const getRandomDiscount = () => {
-  const discounts = [-5, -10, -13, -7, -15, -8];
-  return discounts[Math.floor(Math.random() * discounts.length)];
-};
-
-const ProductGrid: React.FC = () => {
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-10 space-y-10 relative">
-      {/* All Products Arrow Button */}
-      <div className="flex justify-end mb-2">
-        <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
-          View All Products
-          <ArrowRightIcon className="h-5 w-5" />
-        </Link>
-      </div>
-      {/* New Arrivals */}
-      <div className="bg-gradient-to-br from-[#FAF3E0]/60 to-white/60 rounded-3xl shadow-md p-5 md:p-8 lg:p-10 transition-all duration-500 backdrop-blur-md bg-white/60 border border-white/30">
-        <div className="flex justify-between items-center mb-4 lg:mb-6">
-          <h2 className="text-3xl font-extrabold text-[#0D3547] tracking-tight flex items-center gap-2">
-            <span className="inline-block w-2 h-6 bg-[#8B5E3C] rounded-full mr-2 animate-pulse"></span>
-            New Arrivals
-          </h2>
-          <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
-            View All <ArrowRightIcon className="h-5 w-5" />
-          </Link>
-        </div>
-        <p className="text-[#0D3547]/60 mb-5 text-base">Freshly added products for your home and office</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10 animate-fade-in">
-          {newArrivals.map(product => (
-            <Link to={`/products/${product.id}`} key={product.id} className="hover:no-underline">
-              <ProductCard
-                imageUrl={product.imageUrl}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-              />
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div className="w-full h-2 flex items-center justify-center my-3 lg:my-5">
-        <span className="block w-2 h-2 bg-[#8B5E3C] rounded-full animate-bounce mx-1"></span>
-        <span className="block w-32 h-1 bg-gradient-to-r from-transparent via-[#8B5E3C]/30 to-transparent rounded-full"></span>
-        <span className="block w-2 h-2 bg-[#8B5E3C] rounded-full animate-bounce mx-1"></span>
-      </div>
-
-      {/* Featured Products */}
-      <div className="bg-gradient-to-br from-[#F0F4F8]/60 to-white/60 rounded-3xl shadow-md p-5 md:p-8 lg:p-10 transition-all duration-500 backdrop-blur-md bg-white/60 border border-white/30">
-        <div className="flex justify-between items-center mb-4 lg:mb-6">
-          <h2 className="text-3xl font-extrabold text-[#0D3547] tracking-tight flex items-center gap-2">
-            <span className="inline-block w-2 h-6 bg-[#0D3547] rounded-full mr-2 animate-pulse"></span>
-            Featured Products
-          </h2>
-          <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
-            View All <ArrowRightIcon className="h-5 w-5" />
-          </Link>
-        </div>
-        <p className="text-[#0D3547]/60 mb-5 text-base">Handpicked highlights for you</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10 animate-fade-in">
-          {featuredProducts.map(product => (
-            <Link to={`/products/${product.id}`} key={product.id} className="hover:no-underline">
-              <ProductCard
-                imageUrl={product.imageUrl}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-              />
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div className="w-full h-2 flex items-center justify-center my-3 lg:my-5">
-        <span className="block w-2 h-2 bg-[#0D3547] rounded-full animate-bounce mx-1"></span>
-        <span className="block w-32 h-1 bg-gradient-to-r from-transparent via-[#0D3547]/20 to-transparent rounded-full"></span>
-        <span className="block w-2 h-2 bg-[#0D3547] rounded-full animate-bounce mx-1"></span>
-      </div>
-
-      {/* Discounted Products */}
-      <div className="bg-gradient-to-br from-[#FFF7ED]/60 to-white/60 rounded-3xl shadow-md p-5 md:p-8 lg:p-10 transition-all duration-500 backdrop-blur-md bg-white/60 border border-white/30">
-        <div className="flex justify-between items-center mb-4 lg:mb-6">
-          <h2 className="text-3xl font-extrabold text-[#8B5E3C] tracking-tight flex items-center gap-2">
-            <span className="inline-block w-2 h-6 bg-[#0D3547] rounded-full mr-2 animate-pulse"></span>
-            Discounted Products
-          </h2>
-          <Link to="/all-products" className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D3547] text-white rounded-lg shadow hover:bg-[#8B5E3C] transition font-medium">
-            View All <ArrowRightIcon className="h-5 w-5" />
-          </Link>
-        </div>
-        <p className="text-[#0D3547]/60 mb-5 text-base">Save more with these special offers</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 md:gap-8 lg:gap-10 animate-fade-in">
-          {discountedProducts.map(product => (
-            <div key={product.id} className="relative">
-              {/* Discount badge */}
-              <span className="absolute top-3 left-3 z-10 bg-[#8B5E3C] text-white text-xs font-bold rounded-full px-3 py-1 shadow-lg select-none">
-                {getRandomDiscount()}%
-              </span>
-              <Link to={`/products/${product.id}`} className="hover:no-underline block">
-                <ProductCard
-                  imageUrl={product.imageUrl}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default ProductGrid;
+export default function ProductGrid(){
+ return <section className="max-w-[1180px] mx-auto px-5 md:px-6 py-16 md:py-24">
+  <div className="flex flex-wrap justify-between items-end gap-5 mb-8"><div><span className="eyebrow eyebrow--dark">THE HOMELYNK EDIT</span><h2 className="font-serif text-4xl md:text-5xl text-[#173943] mt-3">Pieces worth <em className="text-[#9b6749]">coming home to.</em></h2><p className="text-sm text-[#788381] mt-3">A considered selection from makers and furniture studios across Rwanda.</p></div><Link to="/all-products" className="text-link">View the collection <ArrowUpRightIcon className="w-4 h-4"/></Link></div>
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">{items.map(item=><Link to={`/products/${item.id}`} key={item.id}><ProductCard {...item}/></Link>)}</div>
+  <div className="mt-16 bg-[#173943] text-white px-7 py-10 md:px-14 md:py-14 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+   <div><span className="text-[9px] tracking-[.2em] text-[#d9b39b] font-bold">MADE WITH CARE, FOUND HERE</span><h3 className="font-serif text-3xl md:text-4xl mt-3">Your space. Your story.</h3><p className="text-sm text-white/65 mt-2 max-w-lg">Discover pieces made to last and makers who put care into every detail.</p></div>
+   <Link to="/all-products" className="bg-[#d2ad94] text-[#173943] px-6 py-3 text-xs font-bold hover:bg-white transition">Explore HomeLynk <ArrowUpRightIcon className="inline w-4 h-4 ml-2"/></Link>
+  </div>
+ </section>;
+}
